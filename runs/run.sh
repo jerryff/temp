@@ -1,3 +1,4 @@
+#!/bin/bash
 filelist=`ls /home/work/file/`
 for file in $filelist
 do 
