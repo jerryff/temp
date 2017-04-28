@@ -1,4 +1,5 @@
 #include "replacement_state.h"
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,8 @@ CACHE_REPLACEMENT_STATE::CACHE_REPLACEMENT_STATE( UINT32 _sets, UINT32 _assoc, U
 void CACHE_REPLACEMENT_STATE::InitReplacementState()
 {
     // Create the state for sets, then create the state for the ways
+    cout<<"numset"<<" "<<numsets<<endl;
+    cout<<"assoc "<<assoc<<endl;
     repl  = new LINE_REPLACEMENT_STATE* [ numsets ];
 
     // ensure that we were able to create replacement state
