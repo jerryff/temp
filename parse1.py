@@ -7,6 +7,7 @@ for filename in file_list:
     f = open('runs/'+filename, 'r')
     lines = f.readlines()
     for line in lines:
+        print line
         beginer = line.find("CPI:")
         if beginer != -1:
             beginer += 5
