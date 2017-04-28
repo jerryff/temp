@@ -1,13 +1,15 @@
 import os
+import gzip 
 result_list = []
 file_list = os.listdir("runs/")
 for filename in file_list:
     single_list = []
     one_dict = {"Policy": 'runs/'+filename}
-    f = open('runs/'+filename, 'r')
+    if filename=="run.sh":
+        continue
+    f = gzip.open('runs/'+filename, 'rb')
     lines = f.readlines()
     for line in lines:
-        print line
         beginer = line.find("CPI:")
         if beginer != -1:
             beginer += 5
