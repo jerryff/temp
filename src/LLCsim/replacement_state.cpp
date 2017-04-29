@@ -300,7 +300,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID )
 {
     // Determine current LRU stack position
     UINT32 currLRUstackposition = repl[ setIndex ][ updateWayID ].LRUstackposition;
-
+    repl[setIndex][updateWayID].reference=1;
     // Update the stack position of all lines before the current line
     // Update implies incremeting their stack positions by one
     for(UINT32 way=0; way<assoc; way++) 
@@ -311,7 +311,6 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID )
             repl[setIndex][way].age=0;         
             repl[setIndex][way].reference=0;
         }
-        repl[setIndex][way].reference=1;
         if( repl[setIndex][way].LRUstackposition < currLRUstackposition ) 
         {
             repl[setIndex][way].LRUstackposition++;
