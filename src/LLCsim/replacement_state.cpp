@@ -108,7 +108,7 @@ INT32 CACHE_REPLACEMENT_STATE::GetVictimInSet( UINT32 tid, UINT32 setIndex, cons
     }
 
     // We should never get here
-    assert(0);
+    assert(replPolicy);
 
     return -1; // Returning -1 bypasses the LLC
 }
