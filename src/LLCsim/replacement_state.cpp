@@ -1,5 +1,6 @@
 #include "replacement_state.h"
 #include <iostream>
+using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -210,7 +211,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SRRIP_Victim( UINT32 setIndex )
     // Search for victim whose stack position is assoc-1
     while(true)
     {
-        if( replSet[point[setIndex]].r == 3 ) 
+        if( replSet[point[setIndex]].r >= 3 ) 
         {
             lruWay = point[setIndex];
             point[setIndex]++;
@@ -238,7 +239,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BRRIP_Victim( UINT32 setIndex )
     // Search for victim whose stack position is assoc-1
     while(true)
     {
-        if( replSet[point[setIndex]].r == 3 ) 
+        if( replSet[point[setIndex]].r >= 3 ) 
         {
             lruWay = point[setIndex];
             if(rand()<32767*0.03125)
@@ -260,6 +261,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BRRIP_Victim( UINT32 setIndex )
 
 INT32 CACHE_REPLACEMENT_STATE::Get_DRRIP_Victim( UINT32 setIndex )
 {
+    cout<<counter<<endl;
     if(setIndex<32) {counter++; return Get_SRRIP_Victim(setIndex);}
     if(setIndex<64) {counter--; return Get_BRRIP_Victim(setIndex);}
 
