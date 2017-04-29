@@ -35,7 +35,7 @@ typedef struct
     UINT32  LRUstackposition;
 
     // CONTESTANTS: Add extra state per cache line here
-    bool r;
+    short r;
 
 } LINE_REPLACEMENT_STATE;
 
