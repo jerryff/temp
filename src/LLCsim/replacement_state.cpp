@@ -52,9 +52,8 @@ CACHE_REPLACEMENT_STATE::CACHE_REPLACEMENT_STATE( UINT32 _sets, UINT32 _assoc, U
 void CACHE_REPLACEMENT_STATE::InitReplacementState()
 {
     // Create the state for sets, then create the state for the ways
-    cout<<"numset"<<" "<<numsets<<endl;
-    cout<<"assoc "<<assoc<<endl;
     repl  = new LINE_REPLACEMENT_STATE* [ numsets ];
+    counter=0;
 
     // ensure that we were able to create replacement state
     assert(repl);
@@ -193,6 +192,93 @@ INT32 CACHE_REPLACEMENT_STATE::Get_Random_Victim( UINT32 setIndex )
     return way;
 }
 
+INT32 CACHE_REPLACEMENT_STATE::Get_LRU_Victim( UINT32 setIndex )
+{
+    // Get pointer to replacement state of current set
+    LINE_REPLACEMENT_STATE *replSet = repl[ setIndex ];
+
+    INT32   lruWay   = 0;
+
+    // Search for victim whose stack position is assoc-1
+    for(UINT32 way=0; way<assoc; way++) 
+    {
+        if( replSet[way].LRUstackposition == (assoc-1) ) 
+        {
+            lruWay = way;
+            break;
+        }
+    }
+
+    // return lru way
+    return lruWay;
+}
+
+INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
+{
+    // Get pointer to replacement state of current set
+    LINE_REPLACEMENT_STATE *replSet = repl[ setIndex ];
+
+    INT32   lruWay   = 0;
+
+    // Search for victim whose stack position is assoc-1
+    for(UINT32 way=0; way<assoc; way++) 
+    {
+        if( replSet[way].LRUstackposition == (assoc-1) ) 
+        {           
+            int segma=32767*0.03125;
+            if (rand()<segma) replSet[way].LRUstackposition=0;
+            lruWay = way;
+            break;
+        }
+    }
+
+    // return lru way
+    return lruWay;
+}
+
+
+INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
+{
+    // Get pointer to replacement state of current set
+    LINE_REPLACEMENT_STATE *replSet = repl[ setIndex ];
+
+    INT32   lruWay   = 0;
+
+    // Search for victim whose stack position is assoc-1
+    bool flag=0;
+    for(UINT32 way=0; way<assoc; way++) 
+    {
+        if( replSet[way].LRUstackposition == (assoc-1) ) 
+        {
+            if(replSet[way].reference==1)
+            {
+                if(flag==0)
+                {   
+                    flag=1;
+                    lruWay = way; 
+                } 
+            }
+            else
+            {
+                lruWay = way;  
+                break;
+            }
+        }
+    }
+
+    // return lru way
+    return lruWay;
+}
+
+INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
+{
+    if(setIndex<32) {counter++; return Get_LRU_Victim(setIndex);}
+    if(setIndex<64) {counter--; return Get_SLRU_Victim(setIndex);}
+
+    if(counter<=0) return Get_LRU_Victim(setIndex);
+    if(counter>0) return Get_SLRU_Victim(setIndex);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 // This function implements the LRU update routine for the traditional        //
@@ -218,6 +304,33 @@ void CACHE_REPLACEMENT_STATE::UpdateLRU( UINT32 setIndex, INT32 updateWayID )
     // Set the LRU stack position of new line to be zero
     repl[ setIndex ][ updateWayID ].LRUstackposition = 0;
 }
+
+void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID )
+{
+    // Determine current LRU stack position
+    UINT32 currLRUstackposition = repl[ setIndex ][ updateWayID ].LRUstackposition;
+
+    // Update the stack position of all lines before the current line
+    // Update implies incremeting their stack positions by one
+    for(UINT32 way=0; way<assoc; way++) 
+    {
+        if( repl[setIndex][way].LRUstackposition < currLRUstackposition ) 
+        {
+            repl[setIndex][way].LRUstackposition++;
+            repl[setIndex][way].reference=1;
+            if(repl[setIndex][way].reference==1) repl[setIndex][way].age++;
+            if(repl[setIndex][way].age>=32) 
+            {
+                [setIndex][way].age=0;         
+                repl[setIndex][way].reference=0;
+            }
+        }
+    }
+
+    // Set the LRU stack position of new line to be zero
+    repl[ setIndex ][ updateWayID ].LRUstackposition = 0;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
