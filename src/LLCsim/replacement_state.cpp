@@ -103,6 +103,7 @@ INT32 CACHE_REPLACEMENT_STATE::GetVictimInSet( UINT32 tid, UINT32 setIndex, cons
     }
     else if( replPolicy == CRC_REPL_CONTESTANT )
     {
+        return Get_MY_Victim( setIndex );
         // Contestants:  ADD YOUR VICTIM SELECTION FUNCTION HERE
     }
 
@@ -136,7 +137,8 @@ void CACHE_REPLACEMENT_STATE::UpdateReplacementState(
         // Random replacement requires no replacement state update
     }
     else if( replPolicy == CRC_REPL_CONTESTANT )
-    {
+    {   
+        UpdateMY( setIndex, updateWayID );
         // Contestants:  ADD YOUR UPDATE REPLACEMENT STATE FUNCTION HERE
         // Feel free to use any of the input parameters to make
         // updates to your replacement policy
