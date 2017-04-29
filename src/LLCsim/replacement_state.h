@@ -35,9 +35,18 @@ typedef struct
     UINT32  LRUstackposition;
 
     // CONTESTANTS: Add extra state per cache line here
+    bool references;
+    short age;
 
 } LINE_REPLACEMENT_STATE;
+typedef struct
+{
+    UINT32  LRUstackposition;
 
+    // CONTESTANTS: Add extra state per cache line here
+    bool references;
+    
+} BYPASS_INFO;
 
 // The implementation for the cache replacement policy
 class CACHE_REPLACEMENT_STATE
@@ -49,6 +58,7 @@ class CACHE_REPLACEMENT_STATE
     UINT32 replPolicy;
     
     LINE_REPLACEMENT_STATE   **repl;
+    int counter;
 
     COUNTER mytimer;  // tracks # of references to the cache
 
@@ -77,6 +87,15 @@ class CACHE_REPLACEMENT_STATE
 
     INT32  Get_LRU_Victim( UINT32 setIndex );
     void   UpdateLRU( UINT32 setIndex, INT32 updateWayID );
+
+    INT32  Get_BIP_Victim( UINT32 setIndex );
+    void   UpdateBIP( UINT32 setIndex, INT32 updateWayID );
+
+    INT32  Get_SLRU_Victim( UINT32 setIndex );
+    void   UpdateSLRU( UINT32 setIndex, INT32 updateWayID );
+
+    INT32  Get_MY_Victim( UINT32 setIndex );
+    void   UpdateMY( UINT32 setIndex, INT32 updateWayID );
 };
 
 
