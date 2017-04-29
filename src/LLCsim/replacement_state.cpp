@@ -213,6 +213,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SRRIP_Victim( UINT32 setIndex )
         if( replSet[point[setIndex]].r == 3 ) 
         {
             lruWay = point[setIndex];
+            point[setIndex]++;
             break;
         }
         else
@@ -242,6 +243,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BRRIP_Victim( UINT32 setIndex )
             lruWay = point[setIndex];
             if(rand()>32767*0.1)
                 replSet[point[setIndex]].r = 2;
+            point[setIndex]++;
             break;
         }
         else
