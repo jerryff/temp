@@ -258,7 +258,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
     if(setIndex<64) {counter--; return Get_SLRU_Victim(setIndex);}
 
     if(counter<=0) return Get_LRU_Victim(setIndex);
-    if(counter>0) return Get_SLRU_Victim(setIndex);
+    return Get_SLRU_Victim(setIndex);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
