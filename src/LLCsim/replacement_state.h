@@ -82,10 +82,8 @@ class CACHE_REPLACEMENT_STATE
 
 
     INT32  Get_BRRIP_Victim( UINT32 setIndex );
-    void   UpdateBRRIP( UINT32 setIndex, INT32 updateWayID );
 
-    INT32  Get_BRRIP_Victim( UINT32 setIndex );
-    void   UpdateBRRIP( UINT32 setIndex, INT32 updateWayID );
+    INT32  Get_SRRIP_Victim( UINT32 setIndex );
 
     INT32  Get_DRRIP_Victim( UINT32 setIndex );
     void   UpdateDRRIP( UINT32 setIndex, INT32 updateWayID );
