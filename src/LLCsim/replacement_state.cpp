@@ -323,7 +323,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID )
             if(repl[setIndex][way].reference==1) repl[setIndex][way].age++;
             if(repl[setIndex][way].age>=32) 
             {
-                [setIndex][way].age=0;         
+                repl[setIndex][way].age=0;         
                 repl[setIndex][way].reference=0;
             }
         }
