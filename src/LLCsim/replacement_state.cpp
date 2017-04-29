@@ -214,6 +214,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SRRIP_Victim( UINT32 setIndex )
         if( replSet[point[setIndex]].r >= 3 ) 
         {
             lruWay = point[setIndex];
+            replSet[point[setIndex]].r = 2;
             point[setIndex]++;
             break;
         }
