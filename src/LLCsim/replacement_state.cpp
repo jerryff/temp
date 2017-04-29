@@ -211,7 +211,6 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
         if( replSet[way].LRUstackposition == (assoc-1) ) 
         {           
             int segma=32767*0.03125;
-            cout<<"random "<<random<<endl;
             if (rand()<segma) 
             {
                 for(UINT32 i=0; i<assoc; i++) 
@@ -265,6 +264,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 
 INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
 {
+            cout<<"counter "<<counter<<endl;
     if(setIndex<32) {counter++; return Get_SLRU_Victim(setIndex);}
     if(setIndex<64) {counter--; return Get_BIP_Victim(setIndex);}
 
