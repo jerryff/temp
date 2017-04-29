@@ -1,5 +1,6 @@
 #include "replacement_state.h"
 #include <iostream>
+using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +210,8 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
     {
         if( replSet[way].LRUstackposition == (assoc-1) ) 
         {           
-            int segma=32767*0.7;
+            int segma=32767*0.03125;
+            cout<<"random "<<random<<endl;
             if (rand()<segma) 
             {
                 for(UINT32 i=0; i<assoc; i++) 
