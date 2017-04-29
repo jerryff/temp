@@ -212,9 +212,9 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
             int segma=32767*0.1;
             if (rand()<segma) 
             {
-                for(UINT32 way=0; way<assoc; way++) 
+                for(UINT32 i=0; i<assoc; i++) 
                 {
-                    repl[setIndex][way].LRUstackposition++;
+                    repl[setIndex][i].LRUstackposition++;
                 }
                 replSet[way].LRUstackposition=0;
             }
