@@ -210,16 +210,16 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SRRIP_Victim( UINT32 setIndex )
     // Search for victim whose stack position is assoc-1
     while(true)
     {
-        if( replSet[point].r == 3 ) 
+        if( replSet[point[setIndex]].r == 3 ) 
         {
-            lruWay = point;
+            lruWay = point[setIndex];
             break;
         }
         else
         {
-            replSet[point].r++;
-            point++;
-            if(point==assoc) point=0;
+            replSet[point[setIndex]].r++;
+            point[setIndex]++;
+            if(point[setIndex]==assoc) point[setIndex]=0;
         }
     }
 
@@ -237,18 +237,18 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BRRIP_Victim( UINT32 setIndex )
     // Search for victim whose stack position is assoc-1
     while(true)
     {
-        if( replSet[point].r == 3 ) 
+        if( replSet[point[setIndex]].r == 3 ) 
         {
-            lruWay = point;
+            lruWay = point[setIndex];
             if(rand()>32767*0.1)
-                replSet[point].r = 2;
+                replSet[point[setIndex]].r = 2;
             break;
         }
         else
         {
-            replSet[point].r++;
-            point++;
-            if(point==assoc) point=0;
+            replSet[point[setIndex]].r++;
+            point[setIndex]++;
+            if(point[setIndex]==assoc) point[setIndex]=0;
         }
     }
 
