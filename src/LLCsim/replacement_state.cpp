@@ -209,9 +209,9 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SRRIP_Victim( UINT32 setIndex )
     INT32   lruWay   = 0;
 
     // Search for victim whose stack position is assoc-1
-    cout<<"end1"<<endl;
     while(true)
     {
+    cout<<replSet[point[setIndex]].r<<endl;
         if( replSet[point[setIndex]].r >= 3 ) 
         {
             lruWay = point[setIndex];
@@ -225,7 +225,6 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SRRIP_Victim( UINT32 setIndex )
             if(point[setIndex]==assoc) point[setIndex]=0;
         }
     }
-    cout<<"end2"<<endl;
     // return lru way
     return lruWay;
 }
