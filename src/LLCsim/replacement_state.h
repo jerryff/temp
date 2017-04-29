@@ -89,11 +89,7 @@ class CACHE_REPLACEMENT_STATE
     void   UpdateLRU( UINT32 setIndex, INT32 updateWayID );
 
     INT32  Get_BIP_Victim( UINT32 setIndex );
-    void   UpdateBIP( UINT32 setIndex, INT32 updateWayID );
-
     INT32  Get_SLRU_Victim( UINT32 setIndex );
-    void   UpdateSLRU( UINT32 setIndex, INT32 updateWayID );
-
     INT32  Get_MY_Victim( UINT32 setIndex );
     void   UpdateMY( UINT32 setIndex, INT32 updateWayID );
 };
