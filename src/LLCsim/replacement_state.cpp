@@ -194,26 +194,6 @@ INT32 CACHE_REPLACEMENT_STATE::Get_Random_Victim( UINT32 setIndex )
     return way;
 }
 
-INT32 CACHE_REPLACEMENT_STATE::Get_LRU_Victim( UINT32 setIndex )
-{
-    // Get pointer to replacement state of current set
-    LINE_REPLACEMENT_STATE *replSet = repl[ setIndex ];
-
-    INT32   lruWay   = 0;
-
-    // Search for victim whose stack position is assoc-1
-    for(UINT32 way=0; way<assoc; way++) 
-    {
-        if( replSet[way].LRUstackposition == (assoc-1) ) 
-        {
-            lruWay = way;
-            break;
-        }
-    }
-
-    // return lru way
-    return lruWay;
-}
 
 INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
 {
