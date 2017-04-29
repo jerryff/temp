@@ -69,7 +69,7 @@ void CACHE_REPLACEMENT_STATE::InitReplacementState()
         {
             // initialize stack position (for true LRU)
             repl[ setIndex ][ way ].LRUstackposition = way;
-            repl[ setIndex ][ way ].r = 0;
+            repl[ setIndex ][ way ].r = 3;
 
         }
     }
