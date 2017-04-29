@@ -264,8 +264,9 @@ INT32 CACHE_REPLACEMENT_STATE::Get_DRRIP_Victim( UINT32 setIndex )
     cout<<counter<<endl;
     if(setIndex<32) {counter++; return Get_SRRIP_Victim(setIndex);}
     if(setIndex<64) {counter--; return Get_BRRIP_Victim(setIndex);}
-
     if(counter<=0) return Get_SRRIP_Victim(setIndex);
+
+    cout<<"end"<<endl;
     return Get_BRRIP_Victim(setIndex);
 }
 
