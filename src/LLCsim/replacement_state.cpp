@@ -55,8 +55,8 @@ void CACHE_REPLACEMENT_STATE::InitReplacementState()
     // Create the state for sets, then create the state for the ways
     repl  = new LINE_REPLACEMENT_STATE* [ numsets ];
     counter=0;
-    duel1counter=0;
-    duel2counter=0;
+    duel1counter=1;
+    duel2counter=1;
 
     // ensure that we were able to create replacement state
     assert(repl);
@@ -281,7 +281,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 
 INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
 {
-           cout<<"counter "<<counter<<endl;
+           //cout<<"counter "<<counter<<endl;
     float temp;
     temp=(float)duel1counter/duel2counter;
     if(setIndex<32) {counter+=1/temp; return Get_BIP_Victim(setIndex);}
