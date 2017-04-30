@@ -267,7 +267,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 
 INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
 {
-            cout<<"counter "<<counter<<endl;
+           // cout<<"counter "<<counter<<endl;
     if(counter<-16) counter=-16;
     if(counter>16) counter=16;
     if(setIndex<32) {counter++; return Get_SLRU_Victim(setIndex);}
