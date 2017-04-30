@@ -260,7 +260,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
         }
     }
 
-    replSet[way].reference=0;
+    replSet[lruWay].reference=0;
     // return lru way
     return lruWay;
 }
@@ -268,7 +268,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
 {
             cout<<"counter "<<counter<<endl;
-    if(counter<-16) counter=-16
+    if(counter<-16) counter=-16;
     if(counter>16) counter=16;
     if(setIndex<32) {counter++; return Get_SLRU_Victim(setIndex);}
     if(setIndex<64) {counter--; return Get_BIP_Victim(setIndex);}
