@@ -270,9 +270,9 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 
     int segma=32767*0.1;
     if (rand()<segma)  
-        replSet[way].reference=1;
+        replSet[lruWay].reference=1;
     else
-        replSet[way].reference=0;
+        replSet[lruWay].reference=0;
     // return lru way
     return lruWay;
 }
