@@ -210,7 +210,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
     {
         if( replSet[way].LRUstackposition == (assoc-1) ) 
         {           
-            int segma=32767*0.03125;
+            int segma=32767*1;
             replSet[way].reference=0;
             if (rand()<segma) 
             {
