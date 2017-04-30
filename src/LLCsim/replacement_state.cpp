@@ -283,7 +283,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
 {
            // cout<<"counter "<<counter<<endl;
     float temp;
-    if(counter<0) temp=(float)duel1counter/duel2counter;
+    temp=(float)duel1counter/duel2counter;
     if(setIndex<32) {counter+=1/temp; return Get_SLRU_Victim(setIndex);}
     if(setIndex<64) {counter-=temp; return Get_BIP_Victim(setIndex);}
 
