@@ -55,6 +55,8 @@ void CACHE_REPLACEMENT_STATE::InitReplacementState()
     // Create the state for sets, then create the state for the ways
     repl  = new LINE_REPLACEMENT_STATE* [ numsets ];
     counter=0;
+    duel1counter=0;
+    duel2counter=0;
 
     // ensure that we were able to create replacement state
     assert(repl);
@@ -280,10 +282,10 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
 {
            // cout<<"counter "<<counter<<endl;
-    if(counter<-16) counter=-16;
-    if(counter>16) counter=16;
-    if(setIndex<32) {counter++; return Get_SLRU_Victim(setIndex);}
-    if(setIndex<64) {counter--; return Get_BIP_Victim(setIndex);}
+    float temp;
+    if(counter<0) temp=(float)duel1counter/duel2counter;
+    if(setIndex<32) {counter+=1/temp; return Get_SLRU_Victim(setIndex);}
+    if(setIndex<64) {counter-=temp; return Get_BIP_Victim(setIndex);}
 
     if(counter<=0) return Get_SLRU_Victim(setIndex);
     return Get_BIP_Victim(setIndex);
@@ -318,6 +320,8 @@ void CACHE_REPLACEMENT_STATE::UpdateLRU( UINT32 setIndex, INT32 updateWayID )
 void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool cacheHit )
 {
     // Determine current LRU stack position
+    if(setIndex<32) duel1counter++;
+    if(setIndex<64 && setIndex>=32) duel2counter++;
     UINT32 currLRUstackposition = repl[ setIndex ][ updateWayID ].LRUstackposition;
     if(cacheHit) repl[setIndex][updateWayID].reference=1;
     // Update the stack position of all lines before the current line
