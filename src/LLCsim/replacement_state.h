@@ -59,6 +59,8 @@ class CACHE_REPLACEMENT_STATE
     
     LINE_REPLACEMENT_STATE   **repl;
     int counter;
+    int duel1counter;
+    int duel2counter;
 
     COUNTER mytimer;  // tracks # of references to the cache
 
