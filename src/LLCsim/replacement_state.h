@@ -58,7 +58,7 @@ class CACHE_REPLACEMENT_STATE
     UINT32 replPolicy;
     
     LINE_REPLACEMENT_STATE   **repl;
-    int counter;
+    float counter;
     int duel1counter;
     int duel2counter;
 
