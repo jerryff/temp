@@ -7,7 +7,7 @@ filetail=`echo $file  | cut -d . -f4`
 if [ "$filetail"x = "trace"x ]
 then
 	filename=`echo $file  | cut -d . -f2`
-	../bin/CMPsim.usetrace.64 -threads 1 -t ../traces/${file} -o ../lru/${filename}.stats -cache UL3:1024:64:16 -LLCrepl 0 > ../output.txt
+	../bin/CMPsim.usetrace.64 -threads 1 -t ../traces/${file} -o ../my1/${filename}.stats -cache UL3:1024:64:16 -LLCrepl 2 > ../output.txt
 	n=`expr $n + 1`
 	echo $n
 fi
