@@ -109,7 +109,7 @@ INT32 CACHE_REPLACEMENT_STATE::GetVictimInSet( UINT32 tid, UINT32 setIndex, cons
     }
     else if( replPolicy == CRC_REPL_CONTESTANT )
     {
-        return Get_BIP_Victim( setIndex );
+        return Get_MY_Victim( setIndex );
         // Contestants:  ADD YOUR VICTIM SELECTION FUNCTION HERE
     }
 
