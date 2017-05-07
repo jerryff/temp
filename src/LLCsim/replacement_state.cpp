@@ -108,7 +108,7 @@ INT32 CACHE_REPLACEMENT_STATE::GetVictimInSet( UINT32 tid, UINT32 setIndex, cons
     }
     else if( replPolicy == CRC_REPL_CONTESTANT )
     {
-        return Get_MY_Victim( setIndex );
+        return Get_BIP_Victim( setIndex );
         // Contestants:  ADD YOUR VICTIM SELECTION FUNCTION HERE
     }
 
@@ -217,7 +217,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
                 replSet[way].reference=1;
             else
                 replSet[way].reference=0;
-            segma=32767*0.96875;
+            segma=32767*1;
             if (rand()<segma) 
             {
                 for(UINT32 i=0; i<assoc; i++) 
