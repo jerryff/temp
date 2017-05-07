@@ -27,13 +27,13 @@ All Latencies Are Load-To-Use Latencies
 Opened Binary Trace File: ../traces/999.specrand.out.trace.gz
 Opened Dep File: ../traces/999.specrand.out.dep.gz
 
-[CMP$im] Finished Requested Instruction Count 68635436  for App 0 at Time: 23087976
+[CMP$im] Finished Requested Instruction Count 68635436  for App 0 at Time: 23076818
 
 
 Full Run Summary: (Global Instructions: 68635436)
-	Thread ID: 0 ICOUNT: 68635436 CYC: 23087977 CPI: 0.336386 Global Cycles: 23087977 LLC Misses: 3067
+	Thread ID: 0 ICOUNT: 68635436 CYC: 23076819 CPI: 0.336223 Global Cycles: 23076819 LLC Misses: 3003
 
 
 Region of Interest Summary: 
-	Thread ID: 0 ICOUNT: 68635436 CYC: 23087976 CPI: 0.336386 Global Cycles: 23087977 LLC Misses: 3067
+	Thread ID: 0 ICOUNT: 68635436 CYC: 23076818 CPI: 0.336223 Global Cycles: 23076819 LLC Misses: 3003
 
