@@ -1,6 +1,7 @@
 #include "replacement_state.h"
 #include <iostream>
 using namespace std;
+#define NUM 10000;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -212,13 +213,13 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
     {
         if( replSet[way].LRUstackposition == (assoc-1) ) 
         {           
-            int segma=32767*0.03125;
-            if (rand()<segma)  
+            int segma=NUM*0.03125;
+            if (rand()%NUM<segma)  
                 replSet[way].reference=1;
             else
                 replSet[way].reference=0;
-            segma=32767*1;
-            if (rand()<segma) 
+            segma=NUM*1;
+            if (rand()%NUM<segma) 
             {
                 for(UINT32 i=0; i<assoc; i++) 
                 {
@@ -260,8 +261,8 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
             else
             {
                 lruWay = way; 
-                int segma=32767*0.03125;
-                if (rand()<segma)  
+                int segma=NUM*0.03125;
+                if (rand()%NUM<segma)  
                     replSet[way].reference=1;
                 else
                     replSet[way].reference=0;
@@ -270,8 +271,8 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
         }
     }
 
-    int segma=32767*0.03125;
-    if (rand()<segma)  
+    int segma=NUM*0.03125;
+    if (rand()%NUM<segma)  
         replSet[lruWay].reference=1;
     else
         replSet[lruWay].reference=0;

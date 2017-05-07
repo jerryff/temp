@@ -1,13 +1,13 @@
 import os
 import gzip 
 result_list = []
-file_list = os.listdir("lru/")
+file_list = os.listdir("my1/")
 for filename in file_list:
     single_list = []
-    one_dict = {"Policy": 'lru/'+filename}
+    one_dict = {"Policy": 'my1/'+filename}
     if filename=="run.sh":
         continue
-    f = gzip.open('lru/'+filename, 'rb')
+    f = gzip.open('my1/'+filename, 'rb')
     lines = f.readlines()
     for line in lines:
         beginer = line.find("CPI:")
@@ -66,7 +66,7 @@ for filename in file_list:
     f.close()
     result_list.append(single_list)
 
-wf = open("result_lru.txt", 'w')
+wf = open("result_my1.txt", 'w')
 
 wf.write("Filename                        CPI         IFETCH      LOAD        STORE       WRITE      TOTAL\n\n")
 for case_list in result_list:
