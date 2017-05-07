@@ -218,12 +218,16 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
                 replSet[way].reference=1;
             else
                 replSet[way].reference=0;
-            segma=NUM*1;
+            segma=NUM*(1-0.03125);
             if (rand()%NUM<segma) 
             {
+                UINT32 currLRUstackposition = replSet[way].LRUstackposition;
                 for(UINT32 i=0; i<assoc; i++) 
                 {
-                    repl[setIndex][i].LRUstackposition++;
+                     if( repl[setIndex][i].LRUstackposition < currLRUstackposition ) 
+                    {
+                        repl[setIndex][i].LRUstackposition++;
+                    }
                 }
                 replSet[way].LRUstackposition=0;
             }
@@ -330,7 +334,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
     for(UINT32 way=0; way<assoc; way++) 
     {
         if(repl[setIndex][way].reference==1) repl[setIndex][way].age++;
-        if(repl[setIndex][way].age>=32) 
+        if(repl[setIndex][way].age>=64) 
         {
             repl[setIndex][way].age=0;         
             repl[setIndex][way].reference=0;
