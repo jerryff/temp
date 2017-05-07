@@ -56,8 +56,8 @@ void CACHE_REPLACEMENT_STATE::InitReplacementState()
     // Create the state for sets, then create the state for the ways
     repl  = new LINE_REPLACEMENT_STATE* [ numsets ];
     counter=0;
-    duel1counter=1;
-    duel2counter=1;
+    duel1counter=5;
+    duel2counter=5;
 
     // ensure that we were able to create replacement state
     assert(repl);
