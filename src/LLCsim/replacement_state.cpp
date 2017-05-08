@@ -218,7 +218,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
                 replSet[way].reference=1;
             else
                 replSet[way].reference=0;
-            segma=NUM*0.03125;
+            segma=NUM*0.5;
             if (rand()%NUM<segma) 
             {
                 UINT32 currLRUstackposition = replSet[way].LRUstackposition;
