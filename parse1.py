@@ -66,7 +66,7 @@ for filename in file_list:
     f.close()
     result_list.append(single_list)
 
-wf = open("result_my6.txt", 'w')
+wf = open("result_my7.txt", 'w')
 
 wf.write("Filename                        CPI         IFETCH      LOAD        STORE       WRITE      TOTAL\n\n")
 for case_list in result_list:
