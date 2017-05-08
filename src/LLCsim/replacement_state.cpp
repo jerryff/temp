@@ -213,12 +213,12 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
     {
         if( replSet[way].LRUstackposition == (assoc-1) ) 
         {           
-            int segma=NUM*0.1;
+            int segma=NUM*0.03125;
             if (rand()%NUM<segma)  
                 replSet[way].reference=1;
             else
                 replSet[way].reference=0;
-            segma=NUM*(1-0.1);
+            segma=NUM*(1-0.03125);
             if (rand()%NUM<segma) 
             {
                 UINT32 currLRUstackposition = replSet[way].LRUstackposition;
@@ -265,22 +265,26 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
             else
             {
                 lruWay = way; 
-                int segma=NUM*0.1;
-                if (rand()%NUM<segma)  
-                    replSet[way].reference=1;
-                else
-                    replSet[way].reference=0;
                 break;
             }
         }
     }
 
-    int segma=NUM*0.1;
+    int segma=NUM*0.03125;
     if (rand()%NUM<segma)  
         replSet[lruWay].reference=1;
     else
         replSet[lruWay].reference=0;
     // return lru way
+    UINT32 currLRUstackposition = replSet[lruWay].LRUstackposition;
+    for(UINT32 i=0; i<assoc; i++) 
+    {
+         if( repl[setIndex][i].LRUstackposition < currLRUstackposition ) 
+        {
+            repl[setIndex][i].LRUstackposition++;
+        }
+    }
+    replSet[lruWay].LRUstackposition=0;
     return lruWay;
 }
 
