@@ -248,19 +248,19 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 
     INT32   lruWay   = 0;
 
-    // Search for victim whose stack position is assoc-1
-    // bool flag=0;
+    Search for victim whose stack position is assoc-1
+    bool flag=0;
     for(UINT32 way=0; way<assoc; way++) 
     {
         if( replSet[way].LRUstackposition == (assoc-1) ) 
         {
             if(replSet[way].reference==1)
             {
-                // if(flag==0)
-                // {   
-                //     flag=1;
-                //     lruWay = way; 
-                // } 
+                if(flag==0)
+                {   
+                    flag=1;
+                    lruWay = way; 
+                } 
                 lruWay = way; 
                 break;
             }
@@ -340,7 +340,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
     for(UINT32 way=0; way<assoc; way++) 
     {
         if(repl[setIndex][way].reference==1) repl[setIndex][way].age++;
-        if(repl[setIndex][way].age>=64) 
+        if(repl[setIndex][way].age>=1024) 
         {
             repl[setIndex][way].age=0;         
             repl[setIndex][way].reference=0;
