@@ -248,7 +248,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
 
     INT32   lruWay   = 0;
 
-    Search for victim whose stack position is assoc-1
+    //Search for victim whose stack position is assoc-1
     bool flag=0;
     for(UINT32 way=0; way<assoc; way++) 
     {
@@ -261,8 +261,6 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
                     flag=1;
                     lruWay = way; 
                 } 
-                lruWay = way; 
-                break;
             }
             else
             {
