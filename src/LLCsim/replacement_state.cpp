@@ -252,21 +252,18 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
     bool flag=0;
     for(UINT32 way=0; way<assoc; way++) 
     {
-        if( replSet[way].LRUstackposition == (assoc-1) ) 
+        if(replSet[way].reference==0)
         {
-            if(replSet[way].reference==1)
-            {
-                if(flag==0)
-                {   
-                    flag=1;
-                    lruWay = way; 
-                } 
-            }
-            else
-            {
+            lruWay = way; 
+            break;
+        }
+        else if( replSet[way].LRUstackposition == (assoc-1) ) 
+        {
+            if(flag==0)
+            {   
+                flag=1;
                 lruWay = way; 
-                break;
-            }
+            } 
         }
     }
 
