@@ -323,7 +323,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
     if (rand()%NUM<segma)  
     {
         bypass[setIndex]=1;
-        return way;
+        return -1;
     }
     else
     {
