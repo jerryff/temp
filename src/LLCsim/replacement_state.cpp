@@ -311,7 +311,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
     }
     else
     {
-        int segma=NUM*0.001;
+        int segma=NUM*0.01;
         if (rand()%NUM<segma)  
         {
             virt[setIndex]=PC;
@@ -403,6 +403,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
                 if(PC==virt[setIndex]) { bypass_rate*=2; }
                 if(updateWayID==pointer[setIndex]) { bypass_rate/=2; }
             }
+            if(bypass_rate>1) bypass_rate=1;
             bypass_avail[setIndex]=0;
         }
     }
