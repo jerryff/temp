@@ -98,8 +98,8 @@ class CACHE_REPLACEMENT_STATE
 
     INT32  Get_BIP_Victim( UINT32 setIndex );
     INT32  Get_SLRU_Victim( UINT32 setIndex );
-    INT32  Get_MY_Victim( UINT32 setIndex );
-    void   UpdateMY( UINT32 setIndex, INT32 updateWayID,bool cacheHit );
+    INT32  Get_MY_Victim( UINT32 setIndex,Addr_t PC );
+    void   UpdateMY( UINT32 setIndex, INT32 updateWayID,bool cacheHit ,Addr_t PC);
 };
 
 
