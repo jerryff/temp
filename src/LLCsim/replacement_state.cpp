@@ -311,7 +311,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
     }
     else
     {
-        int segma=NUM*0.03125;
+        int segma=NUM*0.0001;
         if (rand()%NUM<segma)  
         {
             virt[setIndex]=PC;
@@ -384,23 +384,27 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
         
     }
 
-    if(bypass_avail[setIndex]==1)
-    {
-        if(bypass[setIndex]==1)
-        {
-            if(PC==virt[setIndex]) { bypass_rate/=2; bypass_avail[setIndex]=0; }
-            if(setIndex==pointer[setIndex]) { bypass_rate*=2; bypass_avail[setIndex]=0; }
-        }
-        else
-        {
-            if(PC==virt[setIndex]) { bypass_rate*=2; bypass_avail[setIndex]=0; }
-            if(setIndex==pointer[setIndex]) { bypass_rate/=2; bypass_avail[setIndex]=0; }
-        }
-        bypass_avail[setIndex]=0;
-    }
+
 
     // Set the LRU stack position of new line to be zero
-    if(cacheHit) repl[ setIndex ][ updateWayID ].LRUstackposition = 0;
+    if(cacheHit) 
+    {
+        repl[ setIndex ][ updateWayID ].LRUstackposition = 0;
+        if(bypass_avail[setIndex]==1)
+        {
+            if(bypass[setIndex]==1)
+            {
+                if(PC==virt[setIndex]) { bypass_rate/=2; bypass_avail[setIndex]=0; }
+                if(updateWayID==pointer[setIndex]) { bypass_rate*=2; bypass_avail[setIndex]=0; }
+            }
+            else
+            {
+                if(PC==virt[setIndex]) { bypass_rate*=2; bypass_avail[setIndex]=0; }
+                if(updateWayID==pointer[setIndex]) { bypass_rate/=2; bypass_avail[setIndex]=0; }
+            }
+            bypass_avail[setIndex]=0;
+        }
+    }
 }
 
 
