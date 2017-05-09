@@ -307,7 +307,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
     {   
         virt[setIndex]=PC;
         pointer[setIndex]=way;
-        bypass_avail[setIndex]
+        bypass_avail[setIndex]=1;
     }
     else
     {
