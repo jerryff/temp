@@ -292,7 +292,6 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
     return lruWay;
 }
 
-#ifndef REPL_STATE_H
 INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
 {
      //      cout<<"counter "<<counter<<endl;
