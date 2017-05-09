@@ -59,6 +59,12 @@ void CACHE_REPLACEMENT_STATE::InitReplacementState()
     duel1counter=5;
     duel2counter=5;
 
+    virt = new Addr_t [ numsets ];
+    pointer = new UINT32 [ numsets ];
+    bypass = new bool[numsets];
+    bypass_avail = new bool[numsets];
+    bypass_rate = 0.03125;
+
     // ensure that we were able to create replacement state
     assert(repl);
 
@@ -66,7 +72,7 @@ void CACHE_REPLACEMENT_STATE::InitReplacementState()
     for(UINT32 setIndex=0; setIndex<numsets; setIndex++) 
     {
         repl[ setIndex ]  = new LINE_REPLACEMENT_STATE[ assoc ];
-
+        bypass_avail[setIndex]=0;
         for(UINT32 way=0; way<assoc; way++) 
         {
             // initialize stack position (for true LRU)
@@ -109,7 +115,7 @@ INT32 CACHE_REPLACEMENT_STATE::GetVictimInSet( UINT32 tid, UINT32 setIndex, cons
     }
     else if( replPolicy == CRC_REPL_CONTESTANT )
     {
-        return Get_MY_Victim( setIndex );
+        return Get_MY_Victim( setIndex ,PC);
         // Contestants:  ADD YOUR VICTIM SELECTION FUNCTION HERE
     }
 
@@ -144,7 +150,7 @@ void CACHE_REPLACEMENT_STATE::UpdateReplacementState(
     }
     else if( replPolicy == CRC_REPL_CONTESTANT )
     {   
-        UpdateMY( setIndex, updateWayID,cacheHit );
+        UpdateMY( setIndex, updateWayID,cacheHit,PC );
         // Contestants:  ADD YOUR UPDATE REPLACEMENT STATE FUNCTION HERE
         // Feel free to use any of the input parameters to make
         // updates to your replacement policy
@@ -213,7 +219,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_BIP_Victim( UINT32 setIndex )
     {
         if( replSet[way].LRUstackposition == (assoc-1) ) 
         {           
-            int segma=NUM*0.8;
+            int segma=NUM*0.9;
             if (rand()%NUM<segma)  
                 replSet[way].reference=1;
             else
@@ -268,7 +274,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
         }
     }
 
-    int segma=NUM*0.8;
+    int segma=NUM*0.9;
     if (rand()%NUM<segma)  
         replSet[lruWay].reference=1;
     else
@@ -286,16 +292,44 @@ INT32 CACHE_REPLACEMENT_STATE::Get_SLRU_Victim( UINT32 setIndex )
     return lruWay;
 }
 
-INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex )
+#ifndef REPL_STATE_H
+INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
 {
      //      cout<<"counter "<<counter<<endl;
     float temp;
     temp=(float)duel1counter/duel2counter;
-    if(setIndex<32) {counter+=1/temp; return Get_BIP_Victim(setIndex);}
-    if(setIndex<64) {counter-=temp; return Get_SLRU_Victim(setIndex);}
+    INT32 way;
+    if(setIndex<32) {counter+=1/temp; way = Get_BIP_Victim(setIndex);}
+    else if(setIndex<64) {counter-=temp; way = Get_SLRU_Victim(setIndex);}
 
-    if(counter<=0) return Get_BIP_Victim(setIndex);
-    return Get_SLRU_Victim(setIndex);
+    else if(counter<=0) way = Get_BIP_Victim(setIndex);
+    else way = Get_SLRU_Victim(setIndex);
+    if(bypass_avail[setIndex]==0)
+    {   
+        virt[setIndex]=PC;
+        pointer[setIndex]=way;
+        bypass_avail[setIndex]
+    }
+    else
+    {
+        int segma=NUM*0.03125;
+        if (rand()%NUM<segma)  
+        {
+            virt[setIndex]=PC;
+            pointer[setIndex]=way;            
+        }
+    }
+    int segma=NUM*bypass_rate;
+    if (rand()%NUM<segma)  
+    {
+        bypass[setIndex]=1;
+        return -1;
+    }
+    else
+    {
+        bypass[setIndex]=0;
+        return way;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,7 +358,7 @@ void CACHE_REPLACEMENT_STATE::UpdateLRU( UINT32 setIndex, INT32 updateWayID )
     repl[ setIndex ][ updateWayID ].LRUstackposition = 0;
 }
 
-void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool cacheHit )
+void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool cacheHit,  Addr_t PC  )
 {
     // Determine current LRU stack position
     if(setIndex<32) duel1counter++;
@@ -349,6 +383,21 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
             }
         }
         
+    }
+
+    if(bypass_avail[setIndex]==1)
+    {
+        if(bypass[setIndex]==1)
+        {
+            if(PC==virt[setIndex]) { bypass_rate/=2; bypass_avail[setIndex]=0; }
+            if(setIndex==pointer[setIndex]) { bypass_rate*=2; bypass_avail[setIndex]=0; }
+        }
+        else
+        {
+            if(PC==virt[setIndex]) { bypass_rate*=2; bypass_avail[setIndex]=0; }
+            if(setIndex==pointer[setIndex]) { bypass_rate/=2; bypass_avail[setIndex]=0; }
+        }
+        bypass_avail[setIndex]=0;
     }
 
     // Set the LRU stack position of new line to be zero

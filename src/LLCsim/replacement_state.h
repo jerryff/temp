@@ -61,6 +61,12 @@ class CACHE_REPLACEMENT_STATE
     float counter;
     int duel1counter;
     int duel2counter;
+    float bypass_rate;
+
+    Addr_t*  virt;
+    UINT32*  pointer;  
+    bool* bypass;
+    bool* bypass_avail;
 
     COUNTER mytimer;  // tracks # of references to the cache
 
