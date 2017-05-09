@@ -60,7 +60,7 @@ void CACHE_REPLACEMENT_STATE::InitReplacementState()
     duel2counter=5;
 
     virt = new Addr_t [ numsets ];
-    pointer = new UINT32 [ numsets ];
+    pointer = new INT32 [ numsets ];
     bypass = new bool[numsets];
     bypass_avail = new bool[numsets];
     bypass_rate = 0.03125;

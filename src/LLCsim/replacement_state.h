@@ -64,7 +64,7 @@ class CACHE_REPLACEMENT_STATE
     float bypass_rate;
 
     Addr_t*  virt;
-    UINT32*  pointer;  
+    INT32*  pointer;  
     bool* bypass;
     bool* bypass_avail;
 
