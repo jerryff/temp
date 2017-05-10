@@ -306,11 +306,12 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
     if(bypass_avail[setIndex]==0)
     {   
         virt[setIndex]=PC;
-        pointer[setIndex]=way;
+        
         bypass_avail[setIndex]=1;
     }
     else
     {
+        if(pointer[setIndex]==way)  bypass_avail[setIndex]=0;
         int segma=NUM*0.03125;
         if (rand()%NUM<segma)  
         {
