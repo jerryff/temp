@@ -303,7 +303,21 @@ INT32 CACHE_REPLACEMENT_STATE::Get_MY_Victim( UINT32 setIndex,  Addr_t PC  )
 
     else if(counter<=0) way = Get_BIP_Victim(setIndex);
     else way = Get_SLRU_Victim(setIndex);
-
+    if(bypass_avail[setIndex]==0)
+    {   
+        virt[setIndex]=PC;
+        pointer[setIndex]=way;
+        bypass_avail[setIndex]=1;
+    }
+    else
+    {
+        int segma=NUM*0.03125;
+        if (rand()%NUM<segma)  
+        {
+            virt[setIndex]=PC;
+            pointer[setIndex]=way;            
+        }
+    }
     int segma=NUM*bypass_rate;
     // cout<<"bypass "<<bypass_rate<<endl;
     if (rand()%NUM<segma)  
@@ -371,43 +385,26 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
         
     }
 
-    if(bypass_avail[setIndex]==1)
-    {
-        if(bypass[setIndex]==1)
-        {
-            if(PC==virt[setIndex]) { bypass_rate/=2; }
-            if(updateWayID==pointer[setIndex]) { bypass_rate*=2; }
-        }
-        else
-        {
-            if(PC==virt[setIndex]) { bypass_rate*=2; }
-            if(updateWayID==pointer[setIndex]) { bypass_rate/=2; }
-        }
-        if(bypass_rate>1) bypass_rate=1;
-        bypass_avail[setIndex]=0;
-    }
+
 
     // Set the LRU stack position of new line to be zero
     if(cacheHit) 
     {
         repl[ setIndex ][ updateWayID ].LRUstackposition = 0;
-    }
-    else
-    {
-        if(bypass_avail[setIndex]==0)
-        {   
-            virt[setIndex]=PC;
-            pointer[setIndex]=updateWayID;
-            bypass_avail[setIndex]=1;
-        }
-        else
+        if(bypass_avail[setIndex]==1)
         {
-            int segma=NUM*0.03125;
-            if (rand()%NUM<segma)  
+            if(bypass[setIndex]==1)
             {
-                virt[setIndex]=PC;
-                pointer[setIndex]=updateWayID;            
+                if(PC==virt[setIndex]) { bypass_rate/=2; }
+                if(updateWayID==pointer[setIndex]) { bypass_rate*=2; }
             }
+            else
+            {
+                if(PC==virt[setIndex]) { bypass_rate*=2; }
+                if(updateWayID==pointer[setIndex]) { bypass_rate/=2; }
+            }
+            if(bypass_rate>1) bypass_rate=1;
+            bypass_avail[setIndex]=0;
         }
     }
 }
