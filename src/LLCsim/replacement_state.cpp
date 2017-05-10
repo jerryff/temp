@@ -402,7 +402,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
         }
         else
         {
-            int segma=NUM*0.0625;
+            int segma=NUM*0.03125;
             if (rand()%NUM<segma)  
             {
                 virt[setIndex]=PC;
