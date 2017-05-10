@@ -397,7 +397,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
         if(bypass_avail[setIndex]==0)
         {   
             virt[setIndex]=PC;
-            pointer[setIndex]=way;
+            pointer[setIndex]=updateWayID;
             bypass_avail[setIndex]=1;
         }
         else
@@ -406,7 +406,7 @@ void CACHE_REPLACEMENT_STATE::UpdateMY( UINT32 setIndex, INT32 updateWayID,bool 
             if (rand()%NUM<segma)  
             {
                 virt[setIndex]=PC;
-                pointer[setIndex]=way;            
+                pointer[setIndex]=updateWayID;            
             }
         }
     }
